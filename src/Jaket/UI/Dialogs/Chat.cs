@@ -172,7 +172,7 @@ public class Chat : CanvasSingleton<Chat>
         {
             if (msg == "!lol")
             {
-                spamming = true;
+                spamming = !spamming;
             }
             if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
