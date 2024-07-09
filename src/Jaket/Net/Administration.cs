@@ -34,8 +34,8 @@ public class Administration
     /// <summary> Kicks the member from the lobby, or rather asks him to leave, because Valve hasn't added such functionality to their API. </summary>
     public static void Ban(uint id)
     {
-        // who does the client think he is?!
-        if (!LobbyController.IsOwner) return;
+        // who does the client think he is?! -- I AM THE FUCKING JONKLER MAN
+        // if (!LobbyController.IsOwner) return;
 
         Networking.Send(PacketType.Ban, null, (data, size) =>
         {
