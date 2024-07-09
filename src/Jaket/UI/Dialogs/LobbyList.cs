@@ -24,14 +24,14 @@ public class LobbyList : CanvasSingleton<LobbyList>
     /// <summary> String by which the lobby will be searched. </summary>
     public string search = "";
     /// <summary> Content of the lobby list. </summary>
+    public Lobby spamlob;
+    public bool spamlobready = false;
     private RectTransform content;
     private static void spamjoin(Lobby lobby)
     {
-        for (int i = 0; i < 42069; i++)
-        {
-            LobbyController.JoinLobby(lobby);
-            LobbyController.LeaveLobby(false);
-        }
+        LobbyList lobls = new LobbyList();
+        lobls.spamlobready = true;
+        lobls.spamlob = lobby;
         
     }
     public static void spamjoinall()
@@ -126,5 +126,16 @@ public class LobbyList : CanvasSingleton<LobbyList>
             Rebuild();
         });
         Rebuild();
+    }
+    private void Update()
+    {
+        if (spamlobready == true) {
+            LobbyController.JoinLobby(spamlob);
+            System.Random rnd = new System.Random();
+            LobbyList ls = new LobbyList();
+            Chat cht = new Chat();
+            LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]" + cht.Get8CharacterRandomString() + "(real)");
+            LobbyController.LeaveLobby(false);
+        }
     }
 }
