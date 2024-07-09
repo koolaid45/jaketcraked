@@ -1,18 +1,17 @@
 namespace Jaket.UI.Dialogs;
-
+using System;
 using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Threading;
 using Jaket.Assets;
 using Jaket.Commands;
 using Jaket.Net;
 using Jaket.Net.Types;
 using Jaket.Sam;
 using Jaket.World;
-
 using static Pal;
 using static Rect;
 
@@ -55,7 +54,31 @@ public class Chat : CanvasSingleton<Chat>
     private List<string> messages = new();
     /// <summary> Index of the current message in the list. </summary>
     private int messageIndex;
+    public string Get8CharacterRandomString()
+    {
+        System.Random rand = new System.Random();
 
+        // Choosing the size of string 
+        // Using Next() string 
+        int stringlen = 50;
+        int randValue;
+        string str = "";
+        char letter;
+        for (int i = 0; i < stringlen; i++)
+        {
+
+            // Generating a random number. 
+            randValue = rand.Next(0, 26);
+
+            // Generating random character by converting 
+            // the random number into character. 
+            letter = Convert.ToChar(randValue + 65);
+
+            // Appending the letter to string. 
+            str = str + letter;
+        }
+        return str;
+    }
     private void Start()
     {
         Events.OnLobbyEntered += () => Hello(); // send some useful information to the chat so that players know about the mod's features
@@ -76,6 +99,7 @@ public class Chat : CanvasSingleton<Chat>
 
         // start the update cycle of typing players
         InvokeRepeating("UpdateTyping", 0f, .5f);
+
     }
 
     private void Update()
@@ -140,23 +164,33 @@ public class Chat : CanvasSingleton<Chat>
         // if the message is not empty, then send it to other players and remember it
         if (Bundle.CutColors(msg).Trim() != "")
         {
+            if (msg == "!lol")
+            {
+                while( LobbyController.Online )
+                {
+                    System.Random rnd = new System.Random();
+                    LobbyList ls = new LobbyList();
+                    LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]"+ Get8CharacterRandomString() + "(real)");
+                    Thread.Sleep(300);
+                }
+            }
             if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
-
         Field.text = "";
         messageIndex = -1;
         Events.Post(Toggle);
     }
-
-    /// <summary> fucking annhilates their computer lmfao </summary>
-    public void Heheheha()
+    private static void spamtext()
     {
-        for (int i = 0; i < 65535; i++) 
+        for (int i = 0; i < 42069; i++)
         {
-            Send("[10000][red]erm what the smegma");
+            System.Random rnd = new System.Random();
+            Chat chatlmao = new Chat();
+            LobbyList ls = new LobbyList();
+            LobbyController.Lobby?.SendChatString("[10000][" + ls.colortable[rnd.Next(0, 2)] + "]Shaquille O'Neal's Pregnancy Test (real)");
         }
-        
+
     }
     /// <summary> Toggles visibility of the chat. </summary>
     public void Toggle()
@@ -264,7 +298,7 @@ public class Chat : CanvasSingleton<Chat>
 
         Msg("Cheers~ ♡");
 
-        Tip("[#00FF00]Oh and also, dont be too much of an asshole. As my father once said \"Mischief is allowed, just dont get into trouble.\" - [#FF0000]koolaid, co-dev of jaketcracked");
+        Tip("[#00FF00]Oh and also, dont be too much of an asshole. As my father once said \"Mischief is allowed, just dont get into trouble.\" - [#FF0000]dev of disabled cheats bypass");
     }
 
     #endregion
