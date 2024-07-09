@@ -19,17 +19,20 @@ public class LobbyList : CanvasSingleton<LobbyList>
     public Lobby[] Lobbies;
     /// <summary> Button that updates the lobby list. </summary>
     private Button refresh;
+
+    public string[] colortable= {"red", "lime", "blue","purple"};
     /// <summary> String by which the lobby will be searched. </summary>
     public string search = "";
     /// <summary> Content of the lobby list. </summary>
     private RectTransform content;
-    private void spamjoin(Lobby lobby)
+    private static void spamjoin(Lobby lobby)
     {
-        for (int i = 0; i < 6969; i++)
+        for (int i = 0; i < 42069; i++)
         {
             LobbyController.JoinLobby(lobby);
+            LobbyController.LeaveLobby(false);
         }
-        LobbyController.LeaveLobby(false);
+        
     }
     public static void spamjoinall()
     {
