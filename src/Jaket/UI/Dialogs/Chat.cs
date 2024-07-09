@@ -106,7 +106,7 @@ public class Chat : CanvasSingleton<Chat>
     {
         listBg.alpha = Mathf.Lerp(listBg.alpha, Shown || Time.time - lastMessageTime < 5f ? 1f : 0f, Time.deltaTime * 5f);
         ttsBg.gameObject.SetActive(AutoTTS && Shown);
-        if (spamming = true)
+        if (spamming == true)
         {
             System.Random rnd = new System.Random();
             LobbyList ls = new LobbyList();
