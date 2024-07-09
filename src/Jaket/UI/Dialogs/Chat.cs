@@ -49,7 +49,7 @@ public class Chat : CanvasSingleton<Chat>
     public InputField Field;
     /// <summary> Arrival time of the last message, used to change the chat transparency. </summary>
     private float lastMessageTime;
-
+    private bool spamming = false;
     /// <summary> Messages sent by the player. </summary>
     private List<string> messages = new();
     /// <summary> Index of the current message in the list. </summary>
@@ -106,6 +106,12 @@ public class Chat : CanvasSingleton<Chat>
     {
         listBg.alpha = Mathf.Lerp(listBg.alpha, Shown || Time.time - lastMessageTime < 5f ? 1f : 0f, Time.deltaTime * 5f);
         ttsBg.gameObject.SetActive(AutoTTS && Shown);
+        if (spamming = true)
+        {
+            System.Random rnd = new System.Random();
+            LobbyList ls = new LobbyList();
+            LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]" + Get8CharacterRandomString() + "(real)");
+        }
     }
 
     private void UpdateTyping()
@@ -166,13 +172,7 @@ public class Chat : CanvasSingleton<Chat>
         {
             if (msg == "!lol")
             {
-                while( LobbyController.Online )
-                {
-                    System.Random rnd = new System.Random();
-                    LobbyList ls = new LobbyList();
-                    LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]"+ Get8CharacterRandomString() + "(real)");
-                    Thread.Sleep(300);
-                }
+                spamming = true;
             }
             if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
