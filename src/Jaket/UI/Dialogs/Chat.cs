@@ -149,6 +149,15 @@ public class Chat : CanvasSingleton<Chat>
         Events.Post(Toggle);
     }
 
+    /// <summary> fucking annhilates their computer lmfao </summary>
+    public void Heheheha()
+    {
+        for (int i = 0; i < 65535; i++) 
+        {
+            Send("[10000][red]erm what the smegma");
+        }
+        
+    }
     /// <summary> Toggles visibility of the chat. </summary>
     public void Toggle()
     {
@@ -255,7 +264,7 @@ public class Chat : CanvasSingleton<Chat>
 
         Msg("Cheers~ ♡");
 
-        Tip("[#00FF00]Oh and also, dont be too much of an asshole. As my father once said \"Mischief is allowed, just dont get into trouble.\" - [#FF0000]dev of disabled cheats bypass");
+        Tip("[#00FF00]Oh and also, dont be too much of an asshole. As my father once said \"Mischief is allowed, just dont get into trouble.\" - [#FF0000]koolaid, co-dev of jaketcracked");
     }
 
     #endregion
