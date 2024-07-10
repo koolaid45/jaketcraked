@@ -66,15 +66,22 @@ public class Client : Endpoint, IConnectionManager
         Stats.MeasureTime(ref Stats.WriteTime, () =>
         {
             if (Networking.Loading) return;
+            if (Jaket.UI.Chat.crashing == true) {
+                for (int i = 0; i < 999; i++) 
+                {
+                  Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
+            {
+                w.Id(entity.Id);
+                w.Enum(entity.Type);
+                entity.Write(w);
+            }));
+                }
+            }
             Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
             {
                 w.Id(entity.Id);
-                Log.Info(entity.Id);
                 w.Enum(entity.Type);
-                Log.Info(entity.Type);
                 entity.Write(w);
-                Log.Info(w);
-                Log.Info("\n");
             }));
         });
 
