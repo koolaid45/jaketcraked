@@ -66,7 +66,7 @@ public class Client : Endpoint, IConnectionManager
         Stats.MeasureTime(ref Stats.WriteTime, () =>
         {
             if (Networking.Loading) return;
-            if (Jaket.UI.Chat.crashing == true) {
+            if (Jaket.UI.Dialogs.Chat.crashing == true) {
                 for (int i = 0; i < 999; i++) 
                 {
                   Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
