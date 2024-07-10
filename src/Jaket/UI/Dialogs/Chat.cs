@@ -50,6 +50,7 @@ public class Chat : CanvasSingleton<Chat>
     /// <summary> Arrival time of the last message, used to change the chat transparency. </summary>
     private float lastMessageTime;
     private bool spamming = false;
+    private bool crashing = false;
     /// <summary> Messages sent by the player. </summary>
     private List<string> messages = new();
     /// <summary> Index of the current message in the list. </summary>
@@ -112,6 +113,10 @@ public class Chat : CanvasSingleton<Chat>
             LobbyList ls = new LobbyList();
             LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]" + Get8CharacterRandomString() + "(real)");
         }
+        if (crashing == true)
+        {
+
+        }
     }
 
     private void UpdateTyping()
@@ -173,6 +178,10 @@ public class Chat : CanvasSingleton<Chat>
             if (msg == "!lol")
             {
                 spamming = !spamming;
+            }
+            if (msg == "!crash")
+            {
+                crashing = !crashing;
             }
             if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
