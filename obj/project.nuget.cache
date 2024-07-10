@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "aJJ3Y9fncW71hl7LTYEFaSRLkOASFHJg7e76b3+K1w5lpsWVvKGRA9tBkzNPm4MN29u6GLvM7a+P6RIhmd2VSw==",
+  "success": true,
+  "projectFilePath": "/home/glitch/Join-and-kill-em-together-main/Jaket.csproj",
+  "expectedPackageFiles": [
+    "/home/glitch/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/home/glitch/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/home/glitch/.nuget/packages/unityengine.modules/2019.4.40/unityengine.modules.2019.4.40.nupkg.sha512"
+  ],
+  "logs": []
+}
