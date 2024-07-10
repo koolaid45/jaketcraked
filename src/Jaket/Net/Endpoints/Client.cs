@@ -70,23 +70,23 @@ public class Client : Endpoint, IConnectionManager
                 
 
 
-            Networking.EachEntity(entity => true, entity => 
-			{
-				for (int i = 0; i < 9; i++) 
-				{
-					Networking.Send(PacketType.Snapshot, w =>
-            		{
-                		w.Id(entity.Id);
-                		w.Enum(entity.Type);
-                		entity.Write(w);
-            		});
-					LobbyController.Lobby?.SendChatString("sent packet (iteration: " + i + ")");
-        			Manager.Connection.Flush();
-       				Pointers.Free();
+            //Networking.EachEntity(entity => true, entity => 
+			//{
+				//for (int i = 0; i < 9; i++) 
+				//{
+					//Networking.Send(PacketType.Snapshot, w =>
+            		//{
+                		//w.Id(entity.Id);
+                		//w.Enum(entity.Type);
+                		//entity.Write(w);
+            		//});
+					//LobbyController.Lobby?.SendChatString("sent packet (iteration: " + i + ")");
+        			//Manager.Connection.Flush();
+       				//Pointers.Free();
 
-				}
+				//}
 
-			});
+			//});
 
 
 
