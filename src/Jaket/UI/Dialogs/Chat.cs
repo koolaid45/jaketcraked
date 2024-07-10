@@ -44,7 +44,7 @@ public class Chat : CanvasSingleton<Chat>
     public bool AutoTTS;
     /// <summary> Background of the auto TTS sign. </summary>
     private RectTransform ttsBg;
-    public bool crashing = false;
+    public static bool crashing = false;
     /// <summary> Input field in which the message will be entered directly. </summary>
     public InputField Field;
     /// <summary> Arrival time of the last message, used to change the chat transparency. </summary>
