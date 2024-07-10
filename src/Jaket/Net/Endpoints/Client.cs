@@ -69,8 +69,12 @@ public class Client : Endpoint, IConnectionManager
             Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
             {
                 w.Id(entity.Id);
+                Log.Info(entity.Id);
                 w.Enum(entity.Type);
+                Log.Info(entity.Type);
                 entity.Write(w);
+                Log.Info(w);
+                Log.Info("\n");
             }));
         });
 
