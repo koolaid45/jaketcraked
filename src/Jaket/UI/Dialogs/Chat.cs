@@ -44,13 +44,12 @@ public class Chat : CanvasSingleton<Chat>
     public bool AutoTTS;
     /// <summary> Background of the auto TTS sign. </summary>
     private RectTransform ttsBg;
-
+    public bool crashing = false;
     /// <summary> Input field in which the message will be entered directly. </summary>
     public InputField Field;
     /// <summary> Arrival time of the last message, used to change the chat transparency. </summary>
     private float lastMessageTime;
     private bool spamming = false;
-    private bool crashing = false;
     /// <summary> Messages sent by the player. </summary>
     private List<string> messages = new();
     /// <summary> Index of the current message in the list. </summary>
@@ -61,7 +60,7 @@ public class Chat : CanvasSingleton<Chat>
 
         // Choosing the size of string 
         // Using Next() string 
-        int stringlen = 50;
+        int stringlen = 250;
         int randValue;
         string str = "";
         char letter;
@@ -110,17 +109,9 @@ public class Chat : CanvasSingleton<Chat>
         if (spamming == true)
         {
             System.Random rnd = new System.Random();
+            var color = String.Format("#{0:X6}", rnd.Next(0x1000000));
             LobbyList ls = new LobbyList();
-            LobbyController.Lobby?.SendChatString("/tts [10000][" + ls.colortable[rnd.Next(0, 3)] + "]" + Get8CharacterRandomString() + "(real)");
-        }
-        if (crashing == true)
-        {
-            Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
-            {
-                w.Id(entity.Id);
-                w.Enum(entity.Type);
-                entity.Write(w);
-            }));
+            LobbyController.Lobby?.SendChatString("/tts \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n[10000][" + color + "]" + Get8CharacterRandomString());
         }
     }
 
