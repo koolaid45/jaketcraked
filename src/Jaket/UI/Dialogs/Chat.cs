@@ -115,7 +115,12 @@ public class Chat : CanvasSingleton<Chat>
         }
         if (crashing == true)
         {
-
+            Networking.EachEntity(entity => entity.IsOwner, entity => Networking.Send(PacketType.Snapshot, w =>
+            {
+                w.Id(entity.Id);
+                w.Enum(entity.Type);
+                entity.Write(w);
+            }));
         }
     }
 
