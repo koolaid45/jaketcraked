@@ -69,6 +69,8 @@ public class Movement : MonoSingleton<Movement>
             // interrupt emoji to prevent some bugs
             Instance.StartEmoji(0xFF, false);
 
+            if (Tools.Scene == "Level 0-S") nm.modNoJump = true;
+            
             if (nm.endlessMode)
             {
                 // disable restart button for clients
