@@ -1,4 +1,3 @@
-namespace Jaket.Commands;
 
 using System;
 using UnityEngine;
@@ -7,7 +6,10 @@ using Jaket.Assets;
 using Jaket.Content;
 using Jaket.Net;
 using Jaket.UI.Dialogs;
+using static Jaket.World.Movement;
+using System.Globalization;
 
+namespace Jaket.Commands;
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
 {
@@ -75,6 +77,19 @@ public class Commands
                 Tools.Instantiate(Items.Prefabs[EntityType.PlushyOffset + index - EntityType.ItemOffset].gameObject, NewMovement.Instance.transform.position);
         });
 
+        Handler.Register("offset", "<x> <y> <z>", "Offset player position", args =>
+        {
+            World.Movement mov = new World.Movement();
+
+            float x = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat);
+            float y = float.Parse(args[1], CultureInfo.InvariantCulture.NumberFormat);
+            float z = float.Parse(args[2], CultureInfo.InvariantCulture.NumberFormat);
+
+            Vector3 pos = new Vector3(x, y, z);
+            
+            mov.Teleport(pos);
+        });
+
         Handler.Register("level", "<layer> <level> / sandbox / the-cyber-grind", "Load the given level", args =>
         {
             if (!LobbyController.IsOwner)
@@ -115,7 +130,43 @@ public class Commands
             else
                 chat.Receive("[#FF341C]Layer must be an integer from 0 to 7. Level must be an integer from 1 to 5.");
         });
-
+        Handler.Register("forcelevel", "<layer> <level> / sandbox / the-cyber-grind", "Load the given level (works something idk)", args =>
+        {
+            if (args.Length >= 1 && (args[0].ToLower() == "sandbox" || args[0].ToLower() == "sand"))
+            {
+                Tools.Load("uk_construct");
+                chat.Receive("[#32CD32]Sandbox is loading.");
+            }
+            else if (args.Length >= 1 && (args[0].ToLower().Contains("cyber") || args[0].ToLower().Contains("grind") || args[0].ToLower() == "cg"))
+            {
+                Tools.Load("Endless");
+                chat.Receive("[#32CD32]The Cyber Grind is loading.");
+            }
+            else if (args.Length < 2)
+                chat.Receive($"[#FF341C]Insufficient number of arguments.");
+            else if
+            (
+                int.TryParse(args[0], out int layer) && layer >= 0 && layer <= 7 &&
+                int.TryParse(args[1], out int level) && level >= 1 && level <= 5 &&
+                (level == 5 ? layer == 0 : true) && (layer == 3 || layer == 6 ? level <= 2 : true)
+            )
+            {
+                Tools.Load($"Level {layer}-{level}");
+                chat.Receive($"[#32CD32]Level {layer}-{level} is loading.");
+            }
+            else if (args[1].ToUpper() == "S" && int.TryParse(args[0], out level) && level >= 0 && level <= 7 && level != 3 && level != 6)
+            {
+                Tools.Load($"Level {level}-S");
+                chat.Receive($"[#32CD32]Secret level {level}-S is loading.");
+            }
+            else if (args[0].ToUpper() == "P" && int.TryParse(args[1], out level) && level >= 1 && level <= 2)
+            {
+                Tools.Load($"Level P-{level}");
+                chat.Receive($"[#32CD32]Prime level P-{level} is loading.");
+            }
+            else
+                chat.Receive("[#FF341C]Layer must be an integer from 0 to 7. Level must be an integer from 1 to 5.");
+        });
         Handler.Register("authors", "Display the list of the mod developers", args =>
         {
             void Msg(string msg) => chat.Receive($"[14]{msg}[]");
@@ -137,8 +188,11 @@ public class Commands
             Msg("Testers:");
             Msg("[#cccccc]Fenicemaster, AndruGhost, Subjune, FruitCircuit");
 
-            chat.Receive("0096FF", Chat.BOT_PREFIX + "xzxADIxzx", "Thank you all, I couldn't have done it alone ♡");
+            Msg("koolaid:");
+            Msg("[#ff0000]koolaid");
+
+            chat.Receive("0096FF", Chat.BOT_PREFIX + "koolaid", " OH YEAH");
         });
-        Handler.Register("support", "Support the author by buying him a coffee", args => Application.OpenURL("https://www.buymeacoffee.com/adidev"));
+        Handler.Register("support", "nah", args => Application.OpenURL("https://dictionary.cambridge.org/us/dictionary/english/nuh-uh"));
     }
 }
