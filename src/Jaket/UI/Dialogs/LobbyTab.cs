@@ -2,7 +2,7 @@ namespace Jaket.UI.Dialogs;
 
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 using Jaket.Assets;
 using Jaket.Net;
 using Jaket.World;
@@ -16,6 +16,8 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
     private Button create, invite, copy, accessibility;
     /// <summary> Input field with lobby name. </summary>
     private InputField field;
+    public int MAXPLAYERS = 8;
+    public float MAXPLAYERSf = 8;
     /// <summary> Current lobby access level: 0 - private, 1 - friends only, 2 - public. I was too lazy to create an enum. </summary>
     private int lobbyAccessLevel;
     /// <summary> Checkboxes with lobby settings. </summary>
@@ -39,6 +41,7 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
 
                 Rebuild();
             });
+
             invite = UIB.Button("#lobby-tab.invite", table, Btn(116f), clicked: LobbyController.InviteFriend);
         });
         UIB.Table("Lobby Codes", "#lobby-tab.codes", transform, Tlw(176f + 192f / 2f, 192f), table =>
@@ -69,19 +72,24 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
 
             UIB.Text("#lobby-tab.ppp-desc", table, Btn(287f) with { Height = 62f }, size: 16);
 
-            UIB.Text("#lobby-tab.ppp-name", table, Btn(338f), align: TextAnchor.MiddleLeft);
+            //UIB.Text("#lobby-tab.ppp-name", table, Btn(338f), align: TextAnchor.MiddleLeft);
             var PPP = UIB.Text("0PPP", table, Btn(338f), align: TextAnchor.MiddleRight);
-
+            var MAXPLAYER = UIB.Text("0 MAX PLY", table, Btn(272f), align: TextAnchor.MiddleRight);
             UIB.Slider("Health Multiplier", table, Sld(366f), 16, value =>
             {
                 PPP.text = $"{(int)((LobbyController.PPP = value / 8f) * 100)}PPP";
                 LobbyController.Lobby?.SetData("ppp", LobbyController.PPP.ToString());
             });
+            UIB.Slider("maxplty", table, Sld(300f), 16, value =>
+            {
+                MAXPLAYER.text = $"{(int)((MAXPLAYERSf = value / 8f) * 250)} MAX PLY";
+                MAXPLAYERS = Int32.Parse(MAXPLAYER.text) * 250;
+            });
 
             bosses = UIB.Toggle("#lobby-tab.heal-bosses", table, Tgl(398f), 20, allow => LobbyController.Lobby?.SetData("heal-bosses", allow.ToString()));
         });
 
-        Version.Label(transform);
+        Jaket.Version.Label(transform);
         Rebuild();
     }
 
@@ -100,16 +108,16 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
     public void Rebuild()
     {
         // reset config
-        if (LobbyController.Offline)
-        {
-            lobbyAccessLevel = 0;
-            pvp.isOn = true;
-            cheats.isOn = false;
-            mods.isOn = false;
-            bosses.isOn = true;
-        }
-        else field.text = LobbyController.Lobby?.GetData("name");
-
+        //if (LobbyController.Offline)
+        //{
+            //lobbyAccessLevel = 0;
+            //pvp.isOn = true;
+            //cheats.isOn = false;
+            //mods.isOn = false;
+            //bosses.isOn = true;
+        //}
+        //else field.text = LobbyController.Lobby?.GetData("name");
+        field.text = LobbyController.Lobby?.GetData("name");
         create.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.CreatingLobby
             ? "lobby-tab.creating"
             : LobbyController.Offline

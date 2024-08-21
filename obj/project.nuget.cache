@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Kd0qUdiD9NE=",
+  "dgSpecHash": "Ekg9mak62vc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\koolaid\\Documents\\otherproj\\jaketcraked\\Jaket.csproj",
+  "projectFilePath": "C:\\Users\\koolaid\\Documents\\csprojs\\jaketcraked\\Jaket.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\koolaid\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\koolaid\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",

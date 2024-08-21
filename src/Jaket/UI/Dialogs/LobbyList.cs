@@ -32,18 +32,6 @@ public class LobbyList : CanvasSingleton<LobbyList>
         LobbyList lobls = new LobbyList();
         lobls.spamlobready = true;
         lobls.spamlob = lobby;
-        
-    }
-    public static void spamjoinall()
-    {
-        var mc = new LobbyList();
-        var lobbies = mc.search == "" ? mc.Lobbies : Array.FindAll(mc.Lobbies, lobby => lobby.GetData("name").ToLower().Contains(mc.search));
-        for (int i = 0; i < 6969; i++)
-        {
-            foreach (var lobby in lobbies)
-                LobbyController.JoinLobby(lobby);
-        }
-        LobbyController.LeaveLobby(false);
     }
     private void Start()
     {
@@ -55,8 +43,9 @@ public class LobbyList : CanvasSingleton<LobbyList>
                 search = text.Trim().ToLower();
                 Rebuild();
             });
-
+            Action leavelob = () => LobbyController.LeaveLobby(true);
             UIB.IconButton("X", table, Icon(292f, 68f), red, clicked: Toggle);
+            UIB.Button("FORCE LEAVE LOBBY", table, new(175f, -500f, 356f, 40f), clicked: leavelob).targetGraphic.color = UnityEngine.Color.red;
             content = UIB.Scroll("List", table, new(0f, 272f, 624f, 544f, new(.5f, 0f), new(.5f, 0f))).content;
         });
         Refresh();
@@ -93,15 +82,15 @@ public class LobbyList : CanvasSingleton<LobbyList>
             if (LobbyController.IsMultikillLobby(lobby))
             {
                 var name = " [MULTIKILL] " + lobby.GetData("lobbyName");
-                var r = Btn(y += 48f) with { Width = 624f };
+                var r = Btn(y -= 448f) with { Width = 624f };
 
                 UIB.Button(name, content, r, red, 24, TextAnchor.MiddleLeft, () => Bundle.Hud("lobby.mk"));
             }
             else
             {
                 var name = " " + lobby.GetData("name");
-                var r = Btn(y += 48f) with { Width = 424f, x = -75f };
-                var sr = Btn(y) with { Width = 126f, x = 210f };
+                var r = Btn(y += 48f) with { Width = 624f };
+                var sr = Btn((y) + 00f) with { Width = 96f, x = 240f };
                 if (search != "")
                 {
                     int index = name.ToLower().IndexOf(search);
@@ -111,6 +100,7 @@ public class LobbyList : CanvasSingleton<LobbyList>
 
                 var b = UIB.Button(name, content, r, align: TextAnchor.MiddleLeft, clicked: () => LobbyController.JoinLobby(lobby));
                 var c = UIB.Button("SPAMJOIN", content, sr, align: TextAnchor.MiddleRight, clicked: () => spamjoin(lobby));
+                
                 var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
                 var info = $"<color=#BBBBBB>{lobby.GetData("level")}</color> <color={full}>{lobby.MemberCount}/{lobby.MaxMembers}</color> ";
                 UIB.Text(info, b.transform, r.Text, align: TextAnchor.MiddleRight);
